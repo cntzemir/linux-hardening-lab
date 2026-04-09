@@ -1,105 +1,45 @@
-# Baseline Before Hardening
+# Baseline
 
-This document captures the **starting state** of the Ubuntu Server VM before major hardening changes are applied.
-The goal is to make later changes explainable, testable, and reversible.
+## Purpose
 
-## Why this matters
+This document records the initial system state before hardening-related changes are applied.
 
-A hardening lab is stronger when it can show:
-- what the system looked like before changes
-- what changed
-- why the change was made
-- how the change was verified
+The goal is to preserve a clear reference point for comparison so that the lab reflects intentional change rather than undocumented configuration drift.
 
-## Important execution note
+## What Was Reviewed
 
-The baseline script must be run from the **Ubuntu VM itself**.
+The baseline review focuses on:
+- operating system and release information
+- hostname and host context
+- kernel information
+- network identity and address context
+- currently running services
+- enabled services
+- exposed listening ports
+- update state
+- basic firewall state
 
-Use:
-```bash
-bash scripts/collect-baseline.sh
-```
+## Why Baseline Matters
 
-Do **not** run it from Windows PowerShell on the host machine.  
-That would either fail or collect information from the wrong environment.
+A hardening workflow is more useful when the starting point is documented.
 
-## What to do next
+Without a baseline:
+- it becomes harder to explain what changed
+- verification loses context
+- tradeoffs are less visible
+- rollback and recovery decisions become weaker
 
-1. Open the Ubuntu VM terminal.
-2. Go to the project folder.
-3. Run:
-   ```bash
-   bash scripts/collect-baseline.sh
-   ```
-4. Open:
-   ```bash
-   cat notes/baseline-report.txt
-   ```
-5. Use that output to complete the sections below.
-6. Take screenshots for:
-   - system identity
-   - listening sockets
-   - enabled services
-   - sudo group
-   - upgradable packages
+## Practical Collection Approach
 
-## Target system snapshot
+Baseline collection in this repository is supported by the `scripts/collect-baseline.sh` script.
 
-Fill this after running the baseline script.
+The generated report can be saved under `notes/` and reviewed before any hardening steps are applied.
 
-| Field | Value |
-| --- | --- |
-| Hostname | |
-| OS release | |
-| Kernel | |
-| Architecture | |
-| Primary IP | |
-| Active user | |
-| Uptime | |
+## Notes
 
-## Accounts and access
-
-Record the accounts that exist before hardening.
-
-| Item | Notes |
-| --- | --- |
-| Current non-root user | |
-| Root SSH access status | |
-| Password authentication status | |
-| sudo group members | |
-
-## Network exposure
-
-Record what is listening before firewall and SSH tightening.
-
-| Item | Notes |
-| --- | --- |
-| Listening services | |
-| Open ports | |
-| Remote access path | |
-
-## Services
-
-Summarize notable enabled or running services.
-
-| Service | State | Notes |
-| --- | --- | --- |
-| ssh | | |
-| systemd-timesyncd | | |
-| unattended-upgrades | | |
-| other notable services | | |
-
-## Package state
-
-| Item | Notes |
-| --- | --- |
-| Upgradable packages present | |
-| Reboot required | |
-| Update policy before hardening | |
-
-## Baseline evidence
-
-Add:
-- command output excerpts from `notes/baseline-report.txt`
-- screenshots from the Ubuntu VM
-- short notes explaining anything unexpected
+The exact system output can differ depending on:
+- VM platform
+- network mode
+- Ubuntu image defaults
+- installed packages
+- whether OpenSSH server is preinstalled

@@ -1,20 +1,24 @@
-
+# OS / editor
 .DS_Store
 Thumbs.db
-*.swp
-*.swo
-*~
+.vscode/
+.idea/
+
+# Logs / output
 *.log
 *.tmp
-*.out
-reports/
-artifacts/
+
+# Local notes or exports
+notes/*.txt
+notes/*.out
+
+# Screenshots exports if temporary
+screenshots/*.tmp
+
+# Shell artifacts
+*.swp
+*~
+
+# Environment or accidental secrets
 .env
-*.key
-*.pem
-*.pub
-*.iso
-*.qcow2
-*.vdi
-*.vmdk
-screenshots/.DS_Store
+.env.*

@@ -1,63 +1,54 @@
 # Hardening Checklist
 
-Use this checklist as a phase-by-phase progress tracker.
+Use this checklist to track the lab workflow from baseline collection to verification.
 
-## Phase 1 — Baseline and updates
-- [ ] baseline collected with `collect-baseline.sh`
-- [ ] OS, kernel, hostname, IP, memory, disk noted
-- [ ] enabled services reviewed
-- [ ] listening ports reviewed
-- [ ] package update state checked
-- [ ] updates applied
-- [ ] unattended-upgrades posture documented
+## Phase 1 - Baseline
+- [ ] Review OS and release information
+- [ ] Record hostname and host context
+- [ ] Review running services
+- [ ] Review enabled services
+- [ ] Review exposed ports
+- [ ] Review update state
+- [ ] Save baseline report
 
-## Phase 2 — Users and privilege
-- [ ] non-root admin workflow documented
-- [ ] local account expectations documented
-- [ ] sudo posture explained
-- [ ] least-privilege reasoning written
+## Phase 2 - Updates and Patching
+- [ ] Refresh package metadata
+- [ ] Review available upgrades
+- [ ] Apply intended updates
+- [ ] Check reboot requirements
+- [ ] Consider unattended-upgrades behavior
 
-## Phase 3 — SSH hardening
-- [ ] SSH config backed up
-- [ ] config syntax tested with `sshd -t`
-- [ ] direct root login policy reviewed
-- [ ] password authentication policy reviewed
-- [ ] remote access tested safely before old session closed
-- [ ] SSH evidence captured
+## Phase 3 - Users and Privilege
+- [ ] Confirm non-root administrative workflow
+- [ ] Review sudo usage
+- [ ] Review local users and groups
+- [ ] Document least-privilege decisions
 
-## Phase 4 — Firewall and fail2ban
-- [ ] UFW rules decided intentionally
-- [ ] only necessary services allowed
-- [ ] UFW status reviewed
-- [ ] fail2ban installed/configured
-- [ ] jail/service status checked
-- [ ] firewall/fail2ban screenshots captured
+## Phase 4 - SSH Hardening
+- [ ] Back up SSH configuration before changes
+- [ ] Review root login policy
+- [ ] Review password authentication policy
+- [ ] Validate SSH configuration syntax
+- [ ] Restart or reload SSH safely
+- [ ] Confirm access still works
 
-## Phase 5 — AppArmor and service reduction
-- [ ] AppArmor status checked
-- [ ] loaded profiles reviewed
-- [ ] deny-event awareness documented
-- [ ] enabled services reviewed for reduction candidates
-- [ ] unnecessary services documented and reduced carefully
-- [ ] AppArmor evidence captured
+## Phase 5 - Firewall and fail2ban
+- [ ] Review current UFW status
+- [ ] Apply minimal required rules
+- [ ] Verify active firewall configuration
+- [ ] Install or review fail2ban
+- [ ] Verify jail visibility and service status
 
-## Phase 6 — Logging and verification
-- [ ] SSH logs reviewed
-- [ ] fail2ban logs reviewed
-- [ ] AppArmor-related logs reviewed
-- [ ] verification script run
-- [ ] `notes/verification-report.txt` saved
-- [ ] verification screenshot captured
+## Phase 6 - AppArmor and Service Reduction
+- [ ] Review AppArmor status
+- [ ] Review profile visibility
+- [ ] Inspect enabled services
+- [ ] Disable only unnecessary services
+- [ ] Document every reduction decision
 
-## Phase 7 — Tradeoffs and recovery
-- [ ] tradeoff reasoning documented
-- [ ] SSH recovery notes written
-- [ ] UFW recovery notes written
-- [ ] fail2ban recovery notes written
-- [ ] AppArmor/service-recovery notes written
-
-## Final presentation
-- [ ] README reflects actual implementation
-- [ ] screenshots folder is populated
-- [ ] docs folder is complete
-- [ ] no sensitive data is committed
+## Phase 7 - Verification and Documentation
+- [ ] Run verification script
+- [ ] Review verification results
+- [ ] Document tradeoffs
+- [ ] Document recovery notes
+- [ ] Review README and docs for consistency

@@ -1,20 +1,12 @@
 #!/usr/bin/env bash
+# Example UFW rule reference for the lab.
+# Review carefully before running on a real system.
+
 set -euo pipefail
 
-# Example UFW policy for the lab.
-# Review each line before using it on the VM.
-
-echo "Applying example UFW rules for the Linux hardening lab..."
-
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
-
-# Allow SSH. Change the port if your SSH daemon uses a custom one.
-sudo ufw allow 22/tcp comment 'OpenSSH'
-
-# Optional examples for future services.
-# sudo ufw allow 80/tcp comment 'HTTP'
-# sudo ufw allow 443/tcp comment 'HTTPS'
-
-sudo ufw enable
-sudo ufw status verbose
+echo "Example commands only. Review before use."
+echo "sudo ufw default deny incoming"
+echo "sudo ufw default allow outgoing"
+echo "sudo ufw allow OpenSSH"
+echo "sudo ufw enable"
+echo "sudo ufw status verbose"

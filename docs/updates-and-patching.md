@@ -1,85 +1,34 @@
 # Updates and Patching
 
-This document records how the lab handles package updates and automatic security patching.
+## Purpose
 
-## Goal
+This document explains the update and patching hygiene used in the lab.
 
-The system should start from a current package state and keep receiving security updates in a controlled way.
+Keeping the system current is one of the simplest and most effective ways to reduce exposure to known vulnerabilities.
 
-## Why this matters
+## Main Review Areas
 
-A hardened host with outdated packages is still exposed.
-Security maintenance is part of hardening, not a separate task.
+- package index refresh
+- package upgrade status
+- security update behavior
+- reboot awareness after major updates
+- consideration of unattended updates
 
-## Manual update workflow
+## Security Rationale
 
-Use this order:
+A hardened system that is significantly out of date can still remain exposed.
 
-```bash
-sudo apt update
-sudo apt upgrade -y
-sudo apt autoremove -y
-sudo apt autoclean
-```
+For that reason, update hygiene is treated as an early hardening step rather than an afterthought.
 
-After updates, verify:
-- whether a reboot is required
-- whether any service changed behavior
-- whether package errors were reported
+## Practical Workflow
 
-Helpful checks:
+The lab update workflow should include:
+1. refreshing package information
+2. reviewing upgrade availability
+3. applying appropriate upgrades
+4. checking whether a reboot is required
+5. documenting the resulting update state
 
-```bash
-apt list --upgradable
-[ -f /var/run/reboot-required ] && echo "reboot required"
-```
+## Notes
 
-## Automatic security updates
-
-On Ubuntu Server, unattended security updates are commonly managed with `unattended-upgrades`.
-
-Review:
-
-```bash
-dpkg -l | grep unattended-upgrades
-cat /etc/apt/apt.conf.d/20auto-upgrades
-cat /etc/apt/apt.conf.d/50unattended-upgrades
-```
-
-Record:
-- whether `unattended-upgrades` is installed
-- whether automatic updates are enabled
-- whether only security updates are allowed or broader updates too
-- whether automatic reboot behavior is enabled
-
-## Lab decision
-
-Recommended lab stance:
-- enable automatic security updates
-- keep the scope conservative
-- review reboot behavior explicitly
-- document the tradeoff between convenience and control
-
-## Evidence to capture
-
-| Evidence | Status | Notes |
-| --- | --- | --- |
-| `apt update` completed | | |
-| `apt upgrade` completed | | |
-| `apt list --upgradable` reviewed | | |
-| `unattended-upgrades` installed | | |
-| `20auto-upgrades` reviewed | | |
-| reboot requirement checked | | |
-
-## Screenshot checklist
-
-Add later:
-- terminal capture of update commands
-- `20auto-upgrades` review if useful
-
-## Notes and tradeoffs
-
-Example points to discuss:
-- automatic security updates reduce patch delay
-- automatic restarts can interrupt lab services
-- manual review provides more control but increases operational burden
+Automatic updates can improve security posture, but they should still be understood and monitored rather than enabled blindly.

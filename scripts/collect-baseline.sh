@@ -1,82 +1,71 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [ "$(uname -s)" != "Linux" ]; then
-  echo "Error: this script must be run inside the Ubuntu Linux VM."
-  echo "Open a terminal in the Ubuntu guest and run:"
-  echo "  bash scripts/collect-baseline.sh"
-  exit 1
-fi
-
 OUT_DIR="notes"
-OUT_FILE="${OUT_DIR}/baseline-report.txt"
-mkdir -p "${OUT_DIR}"
+OUT_FILE="$OUT_DIR/baseline-report.txt"
+mkdir -p "$OUT_DIR"
 
 {
   echo "Linux Hardening Lab - Baseline Report"
   echo "Generated: $(date -Is)"
   echo
 
-  echo "== System identity =="
-  echo "Hostname: $(hostname)"
-  echo "Kernel: $(uname -r)"
-  echo "Architecture: $(uname -m)"
-  if [ -f /etc/os-release ]; then
-    . /etc/os-release
-    echo "OS: ${PRETTY_NAME:-unknown}"
+  echo "== Host Information =="
+  hostnamectl 2>/dev/null || true
+  echo
+
+  echo "== Kernel =="
+  uname -a
+  echo
+
+  echo "== OS Release =="
+  if command -v lsb_release >/dev/null 2>&1; then
+    lsb_release -a 2>/dev/null || true
+  elif [ -f /etc/os-release ]; then
+    cat /etc/os-release
   fi
   echo
 
-  echo "== Current session =="
-  echo "Current user: $(whoami)"
-  echo "Uptime:"
-  uptime
+  echo "== Current User =="
+  whoami
+  id
   echo
 
-  echo "== Network addresses =="
-  ip -brief addr 2>/dev/null || true
+  echo "== IP Addresses =="
+  hostname -I 2>/dev/null || true
+  ip addr 2>/dev/null || true
   echo
 
-  echo "== Listening sockets =="
-  ss -tulpn 2>/dev/null || ss -tuln 2>/dev/null || true
+  echo "== Listening Ports =="
+  ss -tulpn 2>/dev/null || true
   echo
 
-  echo "== Users in sudo group =="
-  getent group sudo || true
+  echo "== Running Services =="
+  systemctl list-units --type=service --state=running 2>/dev/null || true
   echo
 
-  echo "== Current accounts =="
-  getent passwd
+  echo "== Enabled Service Unit Files =="
+  systemctl list-unit-files --type=service 2>/dev/null || true
   echo
 
-  echo "== Disk usage =="
-  df -h
-  echo
-
-  echo "== Memory =="
-  free -h
-  echo
-
-  echo "== Enabled services =="
-  systemctl list-unit-files --type=service --state=enabled 2>/dev/null | sed -n '1,100p' || true
-  echo
-
-  echo "== Running services =="
-  systemctl list-units --type=service --state=running 2>/dev/null | sed -n '1,120p' || true
-  echo
-
-  echo "== Upgradable packages =="
+  echo "== Upgradable Packages =="
   apt list --upgradable 2>/dev/null || true
   echo
 
-  echo "== Reboot required =="
-  if [ -f /var/run/reboot-required ]; then
-    echo "yes"
+  echo "== UFW Status =="
+  if command -v ufw >/dev/null 2>&1; then
+    sudo ufw status verbose 2>/dev/null || ufw status verbose 2>/dev/null || true
   else
-    echo "no"
+    echo "ufw not installed"
   fi
   echo
-} > "${OUT_FILE}"
 
-echo "Baseline report written to ${OUT_FILE}"
-echo "Review it with: cat ${OUT_FILE}"
+  echo "== AppArmor Status =="
+  if command -v aa-status >/dev/null 2>&1; then
+    sudo aa-status 2>/dev/null || aa-status 2>/dev/null || true
+  else
+    echo "aa-status not available"
+  fi
+} > "$OUT_FILE"
+
+echo "Baseline report written to $OUT_FILE"

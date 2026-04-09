@@ -1,89 +1,70 @@
 # Command Reference
 
-This file collects commands used or likely to be used in the lab.
+This file collects useful commands referenced during the lab. Review commands before running them and adapt them to the actual VM state.
 
-## Baseline
+## Baseline Collection
 ```bash
-uname -r
+uname -a
+lsb_release -a
 hostnamectl
-ip a
 ss -tulpn
-free -h
-df -h
-systemctl list-unit-files --type=service --state=enabled
-apt list --upgradable
+systemctl list-units --type=service --state=running
+systemctl list-unit-files --type=service
 ```
 
-## Updates and patching
+## Updates and Patching
 ```bash
 sudo apt update
-sudo apt upgrade
-apt-cache policy unattended-upgrades
-systemctl status unattended-upgrades --no-pager
+sudo apt upgrade -y
+sudo apt list --upgradable
+sudo reboot
 ```
 
-## Users and privilege
+## Users and Privilege
 ```bash
 whoami
 id
 getent passwd
-groups
+getent group
 sudo -l
 ```
 
-## SSH hardening
+## SSH Hardening
 ```bash
 sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
-grep -E '^(PermitRootLogin|PasswordAuthentication|PubkeyAuthentication|AllowUsers)' /etc/ssh/sshd_config
+sudo nano /etc/ssh/sshd_config
 sudo sshd -t
 sudo systemctl restart ssh
-sudo systemctl status ssh --no-pager
+sudo systemctl status ssh
 ```
 
 ## Firewall
 ```bash
 sudo ufw status verbose
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
 sudo ufw allow OpenSSH
 sudo ufw enable
-sudo ufw status numbered
+sudo ufw delete allow OpenSSH
 ```
 
 ## fail2ban
 ```bash
-sudo apt install fail2ban
-sudo systemctl enable --now fail2ban
-sudo systemctl status fail2ban --no-pager
+sudo systemctl status fail2ban
 sudo fail2ban-client status
 sudo fail2ban-client status sshd
-sudo fail2ban-client set sshd unbanip <IP_ADDRESS>
-journalctl -u fail2ban -n 50 --no-pager
+sudo fail2ban-client set sshd unbanip 127.0.0.1
 ```
 
 ## AppArmor
 ```bash
-aa-status
-systemctl status apparmor --no-pager
-journalctl -k | grep -i apparmor
-journalctl --since "today" | grep -i DENIED
+sudo aa-status
+sudo systemctl status apparmor
+journalctl -xe | grep -i apparmor
 ```
 
-## Services
+## Verification
 ```bash
-systemctl list-units --type=service --state=running
-systemctl list-unit-files --type=service --state=enabled
-systemctl status <service-name> --no-pager
-sudo systemctl disable --now <service-name>
-sudo systemctl enable --now <service-name>
-```
-
-## Logging and verification
-```bash
-journalctl -u ssh -n 50 --no-pager
-journalctl -u fail2ban -n 50 --no-pager
-grep -i "Failed password" /var/log/auth.log
-grep -i "Accepted" /var/log/auth.log
+bash scripts/collect-baseline.sh
 bash scripts/verify-hardening.sh
+cat notes/baseline-report.txt
 cat notes/verification-report.txt
 ```
