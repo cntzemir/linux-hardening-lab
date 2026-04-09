@@ -20,7 +20,7 @@ Instead, report it privately by email:
 
 Please include:
 - a short description of the issue
-- affected file, script, or documented step
+- the affected file, script, or documented step
 - reproduction notes
 - expected impact
 - optional mitigation suggestions

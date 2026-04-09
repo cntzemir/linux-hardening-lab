@@ -2,33 +2,24 @@
 
 ## Purpose
 
-This document explains the update and patching hygiene used in the lab.
+This document records the update and patching part of the lab.
 
-Keeping the system current is one of the simplest and most effective ways to reduce exposure to known vulnerabilities.
+The goal is to make the hardening process start from a reasonably current baseline rather than from outdated package state.
 
-## Main Review Areas
+## Review Areas
 
-- package index refresh
-- package upgrade status
+- package metadata refresh
+- available updates
 - security update behavior
-- reboot awareness after major updates
-- consideration of unattended updates
+- reboot implications
+- whether patching changes the system state in a way that affects later hardening steps
 
-## Security Rationale
+## Why It Matters
 
-A hardened system that is significantly out of date can still remain exposed.
+A hardened system is weaker if it starts from avoidable outdated software state.
 
-For that reason, update hygiene is treated as an early hardening step rather than an afterthought.
-
-## Practical Workflow
-
-The lab update workflow should include:
-1. refreshing package information
-2. reviewing upgrade availability
-3. applying appropriate upgrades
-4. checking whether a reboot is required
-5. documenting the resulting update state
+Patching does not replace configuration hardening, but it reduces known exposure and makes the rest of the hardening workflow more meaningful.
 
 ## Notes
 
-Automatic updates can improve security posture, but they should still be understood and monitored rather than enabled blindly.
+This lab treats update hygiene as an early prerequisite, not as a final cosmetic step.

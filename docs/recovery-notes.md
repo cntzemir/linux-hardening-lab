@@ -22,27 +22,19 @@ If UFW rules block intended access:
 - remove or adjust the rule causing the lockout
 - confirm the minimal required access before re-enabling stricter rules
 
-### 3. fail2ban Access Friction
-If a legitimate user is blocked during testing:
-- inspect fail2ban status
-- identify the relevant jail
-- unban only after understanding the trigger
-- confirm whether the ban reflects expected policy behavior
+### 3. fail2ban False Positives
+If fail2ban blocks valid testing or administrative activity:
+- inspect the relevant jail status
+- review recent failed authentication attempts
+- unban carefully if required
+- confirm whether the triggering behavior was expected test activity
 
-### 4. Service Reduction Side Effects
-If disabling a service affects expected functionality:
-- confirm the service purpose
-- re-enable the service if it is needed for the lab
-- document why the original removal caused operational impact
+### 4. AppArmor Friction
+If AppArmor-related behavior causes confusion:
+- verify whether the issue is actually AppArmor-related
+- inspect service status and logs
+- confirm whether the lab requires a change or only documentation of the constraint
 
-### 5. AppArmor-Related Troubleshooting
-If AppArmor behavior causes confusion or denial:
-- confirm profile status
-- inspect relevant logs where available
-- verify whether the observed behavior is expected enforcement or configuration friction
+## Practical Reminder
 
-## General Rule
-
-Every hardening change should be paired with a reasonable recovery path.
-
-A defensive control is stronger when it is not only secure, but also understandable and recoverable.
+A hardening change is stronger when its rollback path is also understood.

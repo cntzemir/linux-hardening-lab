@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2026-04-10
+
+### Changed
+- Rewrote the README to remove placeholders and draft-only reminders
+- Removed contradictory screenshot language from the main project page
+- Clarified verification workflow and evidence expectations
+- Added a repository-level security policy
+- Polished documentation wording for public portfolio use
+
 ## [1.0.0] - 2026-04-10
 
 ### Added
@@ -11,4 +20,3 @@ All notable changes to this project will be documented in this file.
 - Baseline collection and verification scripts
 - Command reference notes
 - MIT License
-- Security policy

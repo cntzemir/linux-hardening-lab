@@ -2,36 +2,31 @@
 
 ## Purpose
 
-This document records the host-level review of AppArmor visibility and unnecessary service exposure.
+This document explains two related review areas in the lab:
+- host-level application confinement visibility
+- reduction of unnecessary running or enabled services
 
-The goal is to show that hardening is not only about adding controls, but also about reducing what the system exposes and understanding what is already active.
+## AppArmor Review
 
-## AppArmor Review Areas
+The lab checks whether AppArmor is active and whether profiles are loaded.
 
-The AppArmor part of the lab focuses on:
-- confirming whether AppArmor is enabled
-- reviewing visible profile status
-- understanding deny events or enforcement context where applicable
-- recognizing AppArmor as a host-level containment layer
+The point is not to claim advanced policy tuning, but to show awareness of layered host defense and to confirm whether confinement is part of the system baseline.
 
-## Service Reduction Areas
+## Service Reduction Review
 
-The service review focuses on:
-- enabled services
-- actively running services
-- whether each service is required for the lab
-- whether any service should be disabled or removed from the default footprint
+A smaller exposed service set generally means a smaller attack surface.
 
-## Security Rationale
+For that reason, the lab reviews:
+- what services are running
+- what services are enabled
+- what services are unnecessary for the lab
+- whether disabling a service creates operational tradeoffs
 
-A system with fewer exposed or unnecessary services is generally easier to understand, monitor, and defend.
+## Practical Rule
 
-Reducing the number of active components can lower the attack surface and simplify troubleshooting.
+Do not disable services blindly.
 
-## Documentation Mindset
-
-Changes in this area should always be recorded with:
-- what the service did
-- why it was kept or removed
-- whether the decision affects lab functionality
-- how to reverse the change if needed
+A service should be reduced only when:
+- it is not needed for the lab
+- its removal is understood
+- recovery remains practical

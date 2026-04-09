@@ -2,34 +2,34 @@
 
 ## Purpose
 
-This document records the least-privilege thinking used in the lab.
+This document explains the user and privilege model used in the lab.
 
-The goal is to avoid unnecessary privileged access and make administration more deliberate.
+The focus is on minimizing unnecessary privileged behavior and documenting a clean non-root administrative workflow.
 
-## Main Review Areas
+## Main Ideas
 
-- use of a normal administrative user instead of direct root activity
-- controlled sudo access
-- review of local accounts
-- review of groups and privilege boundaries
-- avoidance of unnecessary privilege persistence
+- avoid direct root usage for normal administration
+- use sudo deliberately rather than casually
+- keep privilege boundaries understandable
+- document why a choice improves safety, not only how it is configured
+
+## Review Areas
+
+The user and privilege review in this lab focuses on:
+- active user context
+- group membership
+- sudo usage
+- whether administrative tasks can be performed without normal root login habits
+- whether unnecessary privileged exposure is reduced
 
 ## Security Rationale
 
-Not every task should run with full privilege.
+Least privilege is one of the most useful baseline security ideas because it narrows the impact of mistakes and makes administrative actions more intentional.
 
-Separating routine administration from root-level behavior reduces the chance of accidental damage and encourages more explicit control over high-impact actions.
+This does not remove all risk, but it reduces how casually high privilege is used.
 
-## Practical Mindset
+## Practical Reminder
 
-The lab treats least privilege as a habit, not only a rule.
+Hardening should still remain recoverable.
 
-That means:
-- normal administration should prefer a non-root account
-- elevation should be intentional
-- unnecessary privileged access should be avoided
-- changes should be documented with operational clarity
-
-## Tradeoff Reminder
-
-Very strict access control can increase administrative friction, so the lab keeps the focus on sensible reduction rather than complexity for its own sake.
+Privilege decisions that reduce risk should also leave a safe path for maintenance, troubleshooting, and rollback inside the lab.

@@ -29,17 +29,13 @@ Without a baseline:
 - tradeoffs are less visible
 - rollback and recovery decisions become weaker
 
-## Practical Collection Approach
+## Notes
 
 Baseline collection in this repository is supported by the `scripts/collect-baseline.sh` script.
-
-The generated report can be saved under `notes/` and reviewed before any hardening steps are applied.
-
-## Notes
 
 The exact system output can differ depending on:
 - VM platform
 - network mode
 - Ubuntu image defaults
 - installed packages
-- whether OpenSSH server is preinstalled
+- whether OpenSSH Server is preinstalled

@@ -1,198 +1,236 @@
 # Linux Hardening Lab
 
-Defensive Linux hardening lab documenting secure baseline configuration, SSH hardening, firewall controls, verification steps, tradeoffs, and recovery notes on Ubuntu Server.
+Defensive Linux hardening lab documenting secure baseline configuration, SSH hardening, firewall controls, verification steps, tradeoffs, and recovery notes on Ubuntu Server 24.04 LTS.
 
-## Project Overview
+---
 
-This repository documents a practical Linux hardening workflow performed on Ubuntu Server with a defensive mindset.
+## Project overview
 
-The goal of the project is not to present a production-ready enterprise standard, but to show how a system can be reviewed, reduced, hardened, verified, and documented in a structured way. The focus is on secure baseline configuration, access reduction, service exposure control, authentication hardening, host-level protections, and clear recovery notes.
+This repository documents a defensive Linux hardening lab built to show how a small Ubuntu Server environment can be made more secure through layered configuration, verification, and careful tradeoff analysis.
 
-This project is positioned as a security learning and documentation lab built to reflect practical system-security thinking rather than offensive tooling or attack automation.
-
-## Why I Built This
-
-I built this project to strengthen the systems side of my portfolio.
-
-My recent work has increasingly focused on secure software behavior, authentication, authorization, logging, and defensive design. This lab extends that direction into Linux system configuration by documenting how to reduce attack surface, harden remote access, control network exposure, verify protections, and think through recovery and tradeoff scenarios.
-
-The project reflects my transition from general web development toward more security-aware software and systems work.
-
-## Scope and Goal
+The goal is not to claim production-grade enterprise hardening. The goal is to demonstrate a reviewable, reproducible, and security-aware workflow for improving a Linux system baseline.
 
 This lab focuses on:
-- Ubuntu Server baseline review
-- update and patching hygiene
+- reducing unnecessary access
+- hardening remote administration
+- limiting exposed services
+- improving brute-force resistance
+- verifying changes after implementation
+- documenting tradeoffs and recovery steps
+
+---
+
+## Why I built this
+
+I built this project to complement my software security work with system-level defensive thinking.
+
+My earlier projects focused on secure application behavior such as authentication, role separation, validation, and audit logging. This lab extends that direction into Linux administration by showing how secure defaults, controlled access, firewall policy, service reduction, and verification checks can be applied on a real Ubuntu Server VM.
+
+---
+
+## Hardening scope
+
+This project is intentionally scoped as an educational defensive lab.
+
+### In scope
+- Ubuntu Server baseline collection
+- patching and update strategy
 - user and privilege review
 - SSH hardening
-- UFW firewall configuration
-- fail2ban setup for brute-force resistance
-- AppArmor visibility
+- UFW firewall policy
+- fail2ban review and configuration
+- AppArmor status and basic interpretation
 - service exposure reduction
-- verification and written documentation
-- risks, tradeoffs, and recovery notes
+- logging and verification
+- tradeoffs and recovery notes
 
-This lab does **not** aim to cover:
-- offensive exploitation
-- malware development
-- attack automation
-- enterprise-scale hardening guarantees
-- advanced kernel-level hardening
-- production deployment certification
+### Out of scope
+- offensive tooling
+- exploit development
+- persistence or privilege escalation techniques
+- production-grade compliance claims
+- advanced kernel hardening
+- enterprise-scale monitoring or SIEM integration
 
-## Target Environment
+---
 
-- Operating System: Ubuntu Server 24.04 LTS
-- Lab Type: local virtual machine hardening lab
-- Focus: defensive configuration, verification, and documentation
+## Target environment
 
-## Hardening Areas Covered
+- Operating system: Ubuntu Server 24.04 LTS
+- Environment type: local virtual machine
+- Primary goal: defensive configuration and verification
+- Audience: reviewers, admissions readers, and anyone evaluating practical security reasoning
 
-### 1. Baseline Review
-The project begins with system baseline collection so that configuration changes can be compared against an initial state. This includes host information, service exposure, update state, and firewall-related observations.
+This repository is written so it can be reviewed even when the exact VM platform or local lab metadata changes. Host-specific details should be documented in your private notes or in a later evidence update if you want to publish them.
 
-### 2. Updates and Patching
-The system is reviewed for update state and patching hygiene, including package updates and automatic security update considerations.
+---
 
-### 3. Users and Privilege
-The lab emphasizes root avoidance, controlled sudo use, and least-privilege thinking for normal administration.
+## Baseline before hardening
 
-### 4. SSH Hardening
-SSH configuration is reviewed and tightened to reduce remote access risk. This includes root-login policy, password-authentication considerations, configuration validation, and access-control reasoning.
+Before applying changes, I captured a baseline covering:
+- system identity and kernel version
+- logged-in user and privilege context
+- listening ports
+- active services
+- package and update state
+- firewall status
+- SSH configuration highlights
+- AppArmor status
 
-### 5. Firewall and Access Reduction
-UFW is used to reduce exposed network surface and allow only the access required for the lab.
+The baseline report is generated from:
 
-### 6. Brute-Force Resistance
-fail2ban is included to add a basic protective layer around repeated authentication abuse patterns.
-
-### 7. AppArmor and Service Reduction
-The project also documents AppArmor visibility and the review of running or enabled services in order to reduce unnecessary exposure.
-
-### 8. Verification
-The goal is not only to apply changes, but also to verify them through repeatable checks and documented results.
-
-## Verification Approach
-
-Verification in this lab is based on practical checks such as:
-- SSH configuration validation
-- firewall status review
-- fail2ban status checks
-- AppArmor status review
-- service exposure inspection
-- scripted verification output
-
-The repository includes scripts and notes intended to support repeatable review rather than one-time manual configuration only.
-
-## Repository Structure
-
-```text
-linux-hardening-lab/
-├── README.md
-├── CHANGELOG.md
-├── LICENSE
-├── SECURITY.md
-├── .gitignore
-├── docs/
-│   ├── baseline.md
-│   ├── hardening-checklist.md
-│   ├── users-and-privilege.md
-│   ├── ssh-hardening.md
-│   ├── firewall-and-fail2ban.md
-│   ├── updates-and-patching.md
-│   ├── apparmor-and-service-reduction.md
-│   ├── logging-and-verification.md
-│   ├── risks-and-tradeoffs.md
-│   └── recovery-notes.md
-├── notes/
-│   └── command-reference.md
-├── scripts/
-│   ├── collect-baseline.sh
-│   ├── verify-hardening.sh
-│   └── ufw-rules-example.sh
-└── screenshots/
+```bash
+bash scripts/collect-baseline.sh
 ```
 
-## Documentation
+This keeps the workflow grounded in before-and-after review rather than undocumented configuration drift.
 
+---
+
+## Hardening steps applied
+
+### 1. Updates and patching
+- refreshed package metadata
+- applied available updates
+- reviewed automatic security update behavior
+- recorded reboot implications where relevant
+
+### 2. Users and privilege
+- reviewed active user context
+- confirmed non-root administrative workflow
+- documented least-privilege rationale
+
+### 3. SSH hardening
+- reviewed `sshd_config`
+- tested configuration syntax with `sshd -t`
+- restricted risky remote access settings
+- documented safe restart and verification flow
+
+### 4. Firewall and brute-force resistance
+- reviewed default UFW policy
+- limited allowed services to required ports only
+- documented firewall state after changes
+- reviewed fail2ban coverage for SSH-related abuse
+
+### 5. AppArmor and service reduction
+- reviewed AppArmor status
+- checked loaded profiles
+- identified avoidable service exposure
+- documented service reduction decisions
+
+### 6. Verification and logging
+- ran scripted checks after hardening
+- reviewed SSH, firewall, and fail2ban status
+- recorded evidence in notes and verification output
+
+---
+
+## Verification workflow
+
+After applying the hardening changes, verify the system with:
+
+```bash
+bash scripts/verify-hardening.sh
+cat notes/verification-report.txt
+```
+
+Recommended review points:
+- `sshd -t` returns no configuration error
+- SSH policy matches documented decisions
+- UFW is enabled with intentional allow rules only
+- fail2ban is active and monitoring SSH-related behavior
+- AppArmor is enabled and profiles are loaded
+- unnecessary services are reduced or explicitly justified
+
+The verification summary belongs in the generated report and in the detailed documentation files, not as unfinished placeholders inside the README.
+
+---
+
+## Risks and tradeoffs
+
+Hardening improves security, but it also introduces operational tradeoffs.
+
+Examples documented in this repository:
+- stricter SSH settings can lock out legitimate access if applied carelessly
+- aggressive firewall policy can interrupt expected connectivity
+- fail2ban can accidentally block valid testing activity
+- disabling services can break workflows if dependency mapping is incomplete
+- AppArmor restrictions can require additional troubleshooting
+
+See the detailed tradeoff notes in [docs/risks-and-tradeoffs.md](docs/risks-and-tradeoffs.md).
+
+---
+
+## Recovery notes
+
+This project treats recovery planning as part of hardening quality.
+
+Recovery guidance includes:
+- reverting SSH changes safely
+- correcting UFW rules without losing access
+- handling accidental fail2ban lockouts
+- reviewing AppArmor-related issues
+- validating service restart behavior after rollback
+
+See [docs/recovery-notes.md](docs/recovery-notes.md).
+
+---
+
+## Evidence and documentation
+
+This repository is intentionally documentation-heavy. The main evidence lives in the hardening notes, scripts, and verification outputs.
+
+Available documentation:
 - [Baseline](docs/baseline.md)
-- [Updates and Patching](docs/updates-and-patching.md)
-- [Users and Privilege](docs/users-and-privilege.md)
-- [SSH Hardening](docs/ssh-hardening.md)
+- [Hardening checklist](docs/hardening-checklist.md)
+- [Users and privilege](docs/users-and-privilege.md)
+- [SSH hardening](docs/ssh-hardening.md)
 - [Firewall and fail2ban](docs/firewall-and-fail2ban.md)
-- [AppArmor and Service Reduction](docs/apparmor-and-service-reduction.md)
-- [Logging and Verification](docs/logging-and-verification.md)
-- [Risks and Tradeoffs](docs/risks-and-tradeoffs.md)
-- [Recovery Notes](docs/recovery-notes.md)
-- [Hardening Checklist](docs/hardening-checklist.md)
-- [Command Reference](notes/command-reference.md)
+- [Updates and patching](docs/updates-and-patching.md)
+- [AppArmor and service reduction](docs/apparmor-and-service-reduction.md)
+- [Logging and verification](docs/logging-and-verification.md)
+- [Risks and tradeoffs](docs/risks-and-tradeoffs.md)
+- [Recovery notes](docs/recovery-notes.md)
+- [GitHub release checklist](docs/github-release-checklist.md)
+- [Command reference](notes/command-reference.md)
 
-## Reproducing the Lab
+---
 
-This repository is intended to be reviewed alongside a local Ubuntu Server VM.
+## Reproduce in a VM
 
-Suggested flow:
-1. Prepare an Ubuntu Server 24.04 LTS virtual machine
-2. Review the baseline configuration
-3. Apply update and privilege-related steps
-4. Harden SSH access
-5. Configure UFW rules
-6. Configure fail2ban
-7. Review AppArmor and running services
-8. Run verification checks
-9. Document tradeoffs and recovery notes
+1. Create an Ubuntu Server 24.04 LTS VM
+2. Clone this repository into the VM
+3. Run the baseline collection script
+4. Apply the documented hardening steps gradually
+5. Re-run the verification script
+6. Review the generated notes and verification output
 
-## Scripts
+---
 
-### `scripts/collect-baseline.sh`
-Collects basic baseline information to support before/after comparison.
+## Known limitations
 
-### `scripts/verify-hardening.sh`
-Runs practical verification checks related to SSH, firewall, fail2ban, AppArmor, and exposure review.
+- This is an educational lab, not a production baseline
+- Results depend on the starting state of the VM
+- Some hardening decisions are intentionally conservative to reduce lockout risk
+- The repository does not attempt advanced kernel, container, or enterprise directory hardening
+- Verification is practical and reviewer-friendly, but not a compliance benchmark
 
-### `scripts/ufw-rules-example.sh`
-Contains example firewall rule patterns used as a reference during the lab.
+---
 
-## Security Mindset Behind the Project
+## Future improvements
 
-This repository is designed around a few core ideas:
-- reduce attack surface before adding complexity
-- prefer explicit access decisions over permissive defaults
-- separate normal administration from root-level behavior
-- document why a hardening choice helps, not only how to enable it
-- verify changes after applying them
-- keep recovery paths visible in case a hardening change causes operational friction
+- extend the verification script with more checks
+- add benchmark mapping against CIS-style controls
+- add rollback automation for selected safe changes
+- add comparison notes for Debian or Rocky Linux
+- add optional auditd coverage
 
-## Risks and Tradeoffs
+---
 
-Hardening improves security posture, but it can also introduce usability and recovery costs.
+## About
 
-Examples include:
-- accidental lockout after SSH changes
-- denied access caused by over-restrictive firewall rules
-- operational overhead introduced by tighter authentication controls
-- troubleshooting complexity when multiple security layers interact
+Defensive Linux hardening lab documenting secure baseline configuration, SSH hardening, firewall controls, verification steps, tradeoffs, and recovery notes on Ubuntu Server.
 
-For that reason, the repository includes a dedicated tradeoff and recovery section instead of presenting hardening as a checklist without consequences.
+### Topics
 
-## Known Limitations
-
-- This is a learning-focused lab, not a production baseline
-- The verification process is practical and limited in scope
-- Configuration depth is intentionally moderate rather than enterprise-grade
-- Some controls are documented conceptually unless fully applied in the current VM iteration
-- Results can vary depending on VM platform, network mode, and Ubuntu defaults
-
-## Future Improvements
-
-- add screenshots from the verification workflow
-- expand service-exposure review with more before/after evidence
-- add more structured before/after baseline comparison output
-- include a stronger rollback validation section
-- extend verification checks for additional host-hardening controls
-
-## Author
-
-**Emir Canitez**
-
-Computer Science student in Budapest building a portfolio around secure software, defensive design, and practical system-security learning.
+`linux` `ssh` `documentation` `ubuntu` `cybersecurity` `hardening` `fail2ban` `apparmor` `system-security` `ufw`

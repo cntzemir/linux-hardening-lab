@@ -1,54 +1,56 @@
 # Hardening Checklist
 
-Use this checklist to track the lab workflow from baseline collection to verification.
+Use this checklist to review the lab end to end.
 
-## Phase 1 - Baseline
-- [ ] Review OS and release information
-- [ ] Record hostname and host context
-- [ ] Review running services
-- [ ] Review enabled services
-- [ ] Review exposed ports
-- [ ] Review update state
-- [ ] Save baseline report
+## Baseline
+- [ ] baseline report generated
+- [ ] listening ports reviewed
+- [ ] active services reviewed
+- [ ] initial firewall state reviewed
+- [ ] SSH defaults reviewed
+- [ ] AppArmor status reviewed
 
-## Phase 2 - Updates and Patching
-- [ ] Refresh package metadata
-- [ ] Review available upgrades
-- [ ] Apply intended updates
-- [ ] Check reboot requirements
-- [ ] Consider unattended-upgrades behavior
+## Updates and Patching
+- [ ] package metadata refreshed
+- [ ] available updates applied
+- [ ] automatic security update behavior reviewed
+- [ ] reboot implications checked
 
-## Phase 3 - Users and Privilege
-- [ ] Confirm non-root administrative workflow
-- [ ] Review sudo usage
-- [ ] Review local users and groups
-- [ ] Document least-privilege decisions
+## Users and Privilege
+- [ ] non-root administration confirmed
+- [ ] sudo use reviewed
+- [ ] least-privilege rationale documented
 
-## Phase 4 - SSH Hardening
-- [ ] Back up SSH configuration before changes
-- [ ] Review root login policy
-- [ ] Review password authentication policy
-- [ ] Validate SSH configuration syntax
-- [ ] Restart or reload SSH safely
-- [ ] Confirm access still works
+## SSH Hardening
+- [ ] configuration backup taken
+- [ ] `sshd_config` reviewed
+- [ ] configuration tested with `sshd -t`
+- [ ] risky defaults reduced
+- [ ] access verified after restart
 
-## Phase 5 - Firewall and fail2ban
-- [ ] Review current UFW status
-- [ ] Apply minimal required rules
-- [ ] Verify active firewall configuration
-- [ ] Install or review fail2ban
-- [ ] Verify jail visibility and service status
+## Firewall and fail2ban
+- [ ] UFW policy reviewed
+- [ ] only required ports allowed
+- [ ] firewall status verified
+- [ ] fail2ban installed or reviewed
+- [ ] SSH-related jail visibility confirmed
 
-## Phase 6 - AppArmor and Service Reduction
-- [ ] Review AppArmor status
-- [ ] Review profile visibility
-- [ ] Inspect enabled services
-- [ ] Disable only unnecessary services
-- [ ] Document every reduction decision
+## AppArmor and Service Reduction
+- [ ] AppArmor status checked
+- [ ] loaded profiles reviewed
+- [ ] unnecessary services identified
+- [ ] service reduction decisions documented
 
-## Phase 7 - Verification and Documentation
-- [ ] Run verification script
-- [ ] Review verification results
-- [ ] Document tradeoffs
-- [ ] Document recovery notes
-- [ ] Review README and docs for consistency
+## Verification
+- [ ] verification script executed
+- [ ] verification report reviewed
+- [ ] SSH state confirmed
+- [ ] firewall state confirmed
+- [ ] fail2ban state confirmed
+- [ ] AppArmor state confirmed
+
+## Documentation Quality
+- [ ] tradeoffs documented
+- [ ] recovery notes documented
+- [ ] README aligned with final repo state
+- [ ] no placeholders left in public-facing files

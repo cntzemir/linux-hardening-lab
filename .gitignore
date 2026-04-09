@@ -12,7 +12,7 @@ Thumbs.db
 notes/*.txt
 notes/*.out
 
-# Screenshots exports if temporary
+# Temporary screenshot exports
 screenshots/*.tmp
 
 # Shell artifacts
