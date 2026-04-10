@@ -20,6 +20,21 @@ This lab focuses on:
 
 ---
 
+## Outcome snapshot
+
+This lab was built to document a reviewer-friendly defensive hardening process on Ubuntu Server rather than to claim production-grade compliance.
+
+At a high level, the work focused on:
+
+- reducing exposed remote administration surface
+- tightening SSH-related access decisions
+- limiting allowed services through a documented firewall policy
+- reviewing brute-force resistance with fail2ban
+- checking AppArmor and unnecessary service exposure
+- recording verification evidence, tradeoffs, and recovery notes
+
+---
+
 ## Why I built this
 
 I built this project to complement my software security work with system-level defensive thinking.
