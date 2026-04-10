@@ -140,8 +140,6 @@ Recommended review points:
 - AppArmor is enabled and profiles are loaded
 - unnecessary services are reduced or explicitly justified
 
-The verification summary belongs in the generated report and in the detailed documentation files, not as unfinished placeholders inside the README.
-
 ---
 
 ## Risks and tradeoffs
