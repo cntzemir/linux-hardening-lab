@@ -35,6 +35,19 @@ At a high level, the work focused on:
 
 ---
 
+## What a reviewer can verify quickly
+
+A reviewer should be able to confirm that this repository includes:
+
+- a baseline-before-hardening reference
+- documented hardening steps with defensive scope
+- verification commands and expected review points
+- tradeoff notes for security-sensitive changes
+- recovery guidance for rollback and access mistakes
+- an intentionally educational and defensive scope, not offensive tooling
+
+---
+
 ## Why I built this
 
 I built this project to complement my software security work with system-level defensive thinking.
