@@ -61,8 +61,6 @@ This project is intentionally scoped as an educational defensive lab.
 - Primary goal: defensive configuration and verification
 - Audience: reviewers, admissions readers, and anyone evaluating practical security reasoning
 
-This repository is written so it can be reviewed even when the exact VM platform or local lab metadata changes. Host-specific details should be documented in your private notes or in a later evidence update if you want to publish them.
-
 ---
 
 ## Baseline before hardening
