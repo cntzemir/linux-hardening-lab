@@ -2,6 +2,8 @@
 
 Defensive Linux hardening lab documenting secure baseline configuration, SSH hardening, firewall controls, verification steps, tradeoffs, and recovery notes on Ubuntu Server 24.04 LTS.
 
+This lab is intentionally reviewer-friendly: it does not claim enterprise-grade hardening, but demonstrates a documented defensive workflow built around baseline collection, controlled changes, verification, tradeoff awareness, and recovery planning.
+
 ---
 
 ## Project overview
@@ -35,16 +37,32 @@ At a high level, the work focused on:
 
 ---
 
-## What a reviewer can verify quickly
+## Final Hardening Snapshot
 
-A reviewer should be able to confirm that this repository includes:
+| Area | Before | After |
+|---|---|---|
+| SSH exposure | Default configuration reviewed | Restricted remote access settings documented and verified |
+| Firewall | Baseline collected | UFW policy limited to required ports only |
+| Brute-force resistance | Not yet reviewed | fail2ban checked and aligned with SSH-related abuse protection |
+| Privilege model | Active user context reviewed | Non-root administrative workflow confirmed |
+| Service exposure | Baseline collected | Unnecessary exposure reviewed and reduced where appropriate |
+| Verification | No hardening verification yet | Post-change verification commands and evidence recorded |
+| Recovery readiness | Not documented | Recovery notes added for rollback and access correction |
 
-- a baseline-before-hardening reference
-- documented hardening steps with defensive scope
-- verification commands and expected review points
-- tradeoff notes for security-sensitive changes
-- recovery guidance for rollback and access mistakes
-- an intentionally educational and defensive scope, not offensive tooling
+---
+
+## Quick Evidence Checklist
+
+A reviewer should be able to confirm the following directly from this repository:
+
+- baseline reference exists before changes
+- SSH-related hardening decisions are documented
+- UFW policy changes are recorded with rationale
+- fail2ban review is included in the defensive scope
+- AppArmor status and interpretation are documented
+- verification commands are provided after hardening
+- tradeoffs are discussed, not hidden
+- recovery notes are included in case a hardening step causes access issues
 
 ---
 
